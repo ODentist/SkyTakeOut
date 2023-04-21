@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.annotation.OperationLog;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -43,6 +44,7 @@ public class CategoryController {
      * @param categoryPageQueryDTO
      * @return
      */
+    @OperationLog
     @GetMapping("/page")
     @ApiOperation("分类分页查询")
     public Result<PageResult> page(CategoryPageQueryDTO categoryPageQueryDTO){

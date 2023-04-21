@@ -6,3 +6,9 @@ sky:
     database: sky_take_out
     username: root
     password: 12306LSr
+
+  alioss:
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    access-key-id: LTAI5tHPkpvBZJrtsPeqoo4f
+    access-key-secret: MSI5u3IYwuSGyHJ3lsD60QbJxrVVaw
+    bucket-name: odentist-image-restore

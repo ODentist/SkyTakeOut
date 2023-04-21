@@ -4,10 +4,12 @@
 <mapper namespace="com.sky.mapper.CategoryMapper">
 
     <select id="pageQuery" resultType="com.sky.entity.Category">
-        select * from category
+        select id, type, name, sort, status,
+               create_time, update_time,
+               create_user, update_user from category
         <where>
             <if test="name != null and name != ''">
-                and name like concat('%',#{name},'%')
+                name like concat('%',#{name},'%')
             </if>
             <if test="type != null">
                 and type = #{type}
