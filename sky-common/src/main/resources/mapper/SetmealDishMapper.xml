@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.SetmealDishMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.SetmealDish">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="setmealId" column="setmeal_id" jdbcType="BIGINT"/>
+            <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="copies" column="copies" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,setmeal_id,dish_id,
+        name,price,copies
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from setmeal_dish
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from setmeal_dish
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generator.domain.SetmealDish" useGeneratedKeys="true">
+        insert into setmeal_dish
+        ( id,setmeal_id,dish_id
+        ,name,price,copies
+        )
+        values (#{id,jdbcType=BIGINT},#{setmealId,jdbcType=BIGINT},#{dishId,jdbcType=BIGINT}
+        ,#{name,jdbcType=VARCHAR},#{price,jdbcType=DECIMAL},#{copies,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generator.domain.SetmealDish" useGeneratedKeys="true">
+        insert into setmeal_dish
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="setmealId != null">setmeal_id,</if>
+                <if test="dishId != null">dish_id,</if>
+                <if test="name != null">name,</if>
+                <if test="price != null">price,</if>
+                <if test="copies != null">copies,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="setmealId != null">#{setmealId,jdbcType=BIGINT},</if>
+                <if test="dishId != null">#{dishId,jdbcType=BIGINT},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+                <if test="copies != null">#{copies,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="generator.domain.SetmealDish">
+        update setmeal_dish
+        <set>
+                <if test="setmealId != null">
+                    setmeal_id = #{setmealId,jdbcType=BIGINT},
+                </if>
+                <if test="dishId != null">
+                    dish_id = #{dishId,jdbcType=BIGINT},
+                </if>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="price != null">
+                    price = #{price,jdbcType=DECIMAL},
+                </if>
+                <if test="copies != null">
+                    copies = #{copies,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="generator.domain.SetmealDish">
+        update setmeal_dish
+        set 
+            setmeal_id =  #{setmealId,jdbcType=BIGINT},
+            dish_id =  #{dishId,jdbcType=BIGINT},
+            name =  #{name,jdbcType=VARCHAR},
+            price =  #{price,jdbcType=DECIMAL},
+            copies =  #{copies,jdbcType=INTEGER}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.DishFlavorMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.DishFlavor">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="value" column="value" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dish_id,name,
+        value
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from dish_flavor
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from dish_flavor
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generator.domain.DishFlavor" useGeneratedKeys="true">
+        insert into dish_flavor
+        ( id,dish_id,name
+        ,value)
+        values (#{id,jdbcType=BIGINT},#{dishId,jdbcType=BIGINT},#{name,jdbcType=VARCHAR}
+        ,#{value,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generator.domain.DishFlavor" useGeneratedKeys="true">
+        insert into dish_flavor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="dishId != null">dish_id,</if>
+                <if test="name != null">name,</if>
+                <if test="value != null">value,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="dishId != null">#{dishId,jdbcType=BIGINT},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="value != null">#{value,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="generator.domain.DishFlavor">
+        update dish_flavor
+        <set>
+                <if test="dishId != null">
+                    dish_id = #{dishId,jdbcType=BIGINT},
+                </if>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="value != null">
+                    value = #{value,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="generator.domain.DishFlavor">
+        update dish_flavor
+        set 
+            dish_id =  #{dishId,jdbcType=BIGINT},
+            name =  #{name,jdbcType=VARCHAR},
+            value =  #{value,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>
