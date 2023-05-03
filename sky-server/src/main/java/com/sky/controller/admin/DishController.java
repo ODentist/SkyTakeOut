@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -24,6 +25,8 @@ import java.util.List;
 public class DishController {
     @Autowired
     DishService dishService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     /**
      * 新增菜品
@@ -99,10 +102,11 @@ public class DishController {
      */
     @GetMapping("/list")
     @ApiOperation("根据分类查询菜品")
-    public Result<List<DishVO>> queryByCategoryId(Long categoryId){
+    public Result<List<Dish>> queryByCategoryId(Long categoryId){
+        //构造redis中的key，规则：dish_分类id
         log.info("根据分类查询菜品{}",categoryId);
-        List<DishVO> dishVO=dishService.queryByCategoryId(categoryId);
-        return Result.success(dishVO);
+        List<Dish> dish=dishService.queryByCategoryId(categoryId);
+        return Result.success(dish);
     }
 
     @PostMapping("status/{status}")

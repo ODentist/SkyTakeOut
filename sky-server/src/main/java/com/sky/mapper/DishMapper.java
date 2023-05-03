@@ -38,5 +38,10 @@ public interface DishMapper {
     void update(Dish dish);
 
 
-    List<DishVO> queryByCategoryId(Long id);
+    List<Dish> queryByCategoryId(Dish dish);
+
+    @Select("select count(status) from dish where status=1")
+    Integer queryStatus_ON();
+    @Select("select count(status) from dish where status=0")
+    Integer queryStatus_OFF();
 }

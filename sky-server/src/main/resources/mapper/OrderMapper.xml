@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.OrderMapper">
+    <sql id="Base_Column_List">
+        id,number,status,
+        user_id,address_book_id,order_time,
+        checkout_time,pay_method,pay_status,
+        amount,remark,phone,
+        address,user_name,consignee,
+        cancel_reason,rejection_reason,cancel_time,
+        estimated_delivery_time,delivery_status,delivery_time,
+        pack_amount,tableware_number,tableware_status
+    </sql>
+    <insert id="insertOrders" keyColumn="id" keyProperty="id" parameterType="com.sky.entity.Orders" useGeneratedKeys="true">
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="number != null">number,</if>
+            <if test="status != null">status,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="addressBookId != null">address_book_id,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="checkoutTime != null">checkout_time,</if>
+            <if test="payMethod != null">pay_method,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="amount != null">amount,</if>
+            <if test="remark != null">remark,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="consignee != null">consignee,</if>
+            <if test="cancelReason != null">cancel_reason,</if>
+            <if test="rejectionReason != null">rejection_reason,</if>
+            <if test="cancelTime != null">cancel_time,</if>
+            <if test="estimatedDeliveryTime != null">estimated_delivery_time,</if>
+            <if test="deliveryStatus != null">delivery_status,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="packAmount != null">pack_amount,</if>
+            <if test="tablewareNumber != null">tableware_number,</if>
+            <if test="tablewareStatus != null">tableware_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="number != null">#{number,jdbcType=VARCHAR},</if>
+            <if test="status != null">#{status,jdbcType=INTEGER},</if>
+            <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+            <if test="addressBookId != null">#{addressBookId,jdbcType=BIGINT},</if>
+            <if test="orderTime != null">#{orderTime,jdbcType=TIMESTAMP},</if>
+            <if test="checkoutTime != null">#{checkoutTime,jdbcType=TIMESTAMP},</if>
+            <if test="payMethod != null">#{payMethod,jdbcType=INTEGER},</if>
+            <if test="payStatus != null">#{payStatus,jdbcType=TINYINT},</if>
+            <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+            <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+            <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+            <if test="consignee != null">#{consignee,jdbcType=VARCHAR},</if>
+            <if test="cancelReason != null">#{cancelReason,jdbcType=VARCHAR},</if>
+            <if test="rejectionReason != null">#{rejectionReason,jdbcType=VARCHAR},</if>
+            <if test="cancelTime != null">#{cancelTime,jdbcType=TIMESTAMP},</if>
+            <if test="estimatedDeliveryTime != null">#{estimatedDeliveryTime,jdbcType=TIMESTAMP},</if>
+            <if test="deliveryStatus != null">#{deliveryStatus,jdbcType=TINYINT},</if>
+            <if test="deliveryTime != null">#{deliveryTime,jdbcType=TIMESTAMP},</if>
+            <if test="packAmount != null">#{packAmount,jdbcType=INTEGER},</if>
+            <if test="tablewareNumber != null">#{tablewareNumber,jdbcType=INTEGER},</if>
+            <if test="tablewareStatus != null">#{tablewareStatus,jdbcType=TINYINT},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.sky.entity.Orders">
+        update orders
+        <set>
+            <if test="cancelReason != null and cancelReason!='' ">
+                cancel_reason=#{cancelReason},
+            </if>
+            <if test="rejectionReason != null and rejectionReason!='' ">
+                rejection_reason=#{rejectionReason},
+            </if>
+            <if test="cancelTime != null">
+                cancel_time=#{cancelTime},
+            </if>
+            <if test="payStatus != null">
+                pay_status=#{payStatus},
+            </if>
+            <if test="payMethod != null">
+                pay_method=#{payMethod},
+            </if>
+            <if test="checkoutTime != null">
+                checkout_time=#{checkoutTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="queryHistoryOrdersList" resultType="com.sky.entity.Orders">
+        select * from orders where user_id=#{userId}
+    </select>
+    <select id="queryConditionSearchOrders" resultType="com.sky.entity.Orders">
+        select <include refid="Base_Column_List"/>
+            from orders <where>
+        <if test="beginTime !=null and endTime !=null">
+            and order_time between #{beginTime} and #{endTime}
+        </if>
+        <if test="number !=null">
+            and number=#{number}
+        </if>
+        <if test="phone !=null">
+            and phone=#{phone}
+        </if>
+            <if test="status !=null">
+            and status=#{status}
+        </if>
+    </where>
+    </select>
+    <select id="countStatus" resultType="java.lang.Integer">
+        select count(id) from orders where status=#{toBeConfirmed}
+    </select>
+    <select id="checkValidOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders where status=6 and to_days(order_time)=to_days(now())
+    </select>
+    <select id="queryTurnover" resultType="java.lang.Double">
+        select sum(amount) from orders where to_days(order_time)=to_days(now())
+    </select>
+    <select id="queryAllOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now())
+    </select>
+    <select id="queryWaitingOrders" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now()) and status=2;
+    </select>
+    <select id="queryDeliveredOrders" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now()) and status=4;
+    </select>
+    <select id="queryCompletedOrders" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now()) and status=5;
+    </select>
+    <select id="queryCancelledOrders" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now()) and status=6 and status=7;
+    </select>
+    <select id="queryAllOrders" resultType="java.lang.Integer">
+        select count(*) from orders where to_days(order_time)=to_days(now())
+    </select>
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="begin != null">
+                and order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+    <select id="todayValidOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="begin != null">
+                and order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+    <select id="todayOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            <if test="begin != null">
+                and order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+    <select id="queryTotalOrderCount" resultType="java.lang.Integer">
+        select count(*) from orders;
+    </select>
+    <select id="queryTotalValidOrderCount" resultType="java.lang.Integer">
+        select COUNT(*) from orders where status=5;
+    </select>
+    <select id="getSalesTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name name,sum(od.number) number from order_detail od ,orders o
+        where od.order_id = o.id
+        and o.status = 5
+        <if test="beginTime != null">
+            and order_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and order_time &lt;= #{endTime}
+        </if>
+        group by name
+        order by number desc
+        limit 0, 10
+    </select>
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="begin != null">
+                and order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+
+
+
+
+</mapper>

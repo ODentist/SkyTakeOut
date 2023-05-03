@@ -12,3 +12,19 @@ sky:
     access-key-id: LTAI5tHPkpvBZJrtsPeqoo4f
     access-key-secret: MSI5u3IYwuSGyHJ3lsD60QbJxrVVaw
     bucket-name: odentist-image-restore
+
+  redis:
+      host: localhost
+      port: 6379
+      # password: 123456
+      database: 10
+  wechat:
+      appid: wx3b6411b4051cc64f
+      secret: 9dcd4ff30c75c06f10c540a15952b932
+      mchid: 1561414331
+      mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+      privateKeyFilePath: D:\apiclient_key.pem
+      apiV3Key: CZBK51236435wxpay435434323FFDuv3
+      weChatPayCertFilePath: D:\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+      notifyUrl: https://www.weixin.qq.com/wxpay/pay.php
+      refundNotifyUrl: https://www.weixin.qq.com/wxpay/pay.php

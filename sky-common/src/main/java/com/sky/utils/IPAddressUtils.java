@@ -1,5 +1,6 @@
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -11,6 +12,7 @@ import java.net.InetAddress;
  */
 @SuppressWarnings({"all"})
 @Slf4j
+@Component
 public class IPAddressUtils {
     /**
      * 获取IP地址

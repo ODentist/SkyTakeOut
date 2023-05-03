@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.OrderDetailMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.OrderDetail">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
+            <result property="setmealId" column="setmeal_id" jdbcType="BIGINT"/>
+            <result property="dishFlavor" column="dish_flavor" jdbcType="VARCHAR"/>
+            <result property="number" column="number" jdbcType="INTEGER"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,image,
+        order_id,dish_id,setmeal_id,
+        dish_flavor,number,amount
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from order_detail
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from order_detail
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generator.domain.OrderDetail" useGeneratedKeys="true">
+        insert into order_detail
+        ( id,name,image
+        ,order_id,dish_id,setmeal_id
+        ,dish_flavor,number,amount
+        )
+        values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR}
+        ,#{orderId,jdbcType=BIGINT},#{dishId,jdbcType=BIGINT},#{setmealId,jdbcType=BIGINT}
+        ,#{dishFlavor,jdbcType=VARCHAR},#{number,jdbcType=INTEGER},#{amount,jdbcType=DECIMAL}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generator.domain.OrderDetail" useGeneratedKeys="true">
+        insert into order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="image != null">image,</if>
+                <if test="orderId != null">order_id,</if>
+                <if test="dishId != null">dish_id,</if>
+                <if test="setmealId != null">setmeal_id,</if>
+                <if test="dishFlavor != null">dish_flavor,</if>
+                <if test="number != null">number,</if>
+                <if test="amount != null">amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="image != null">#{image,jdbcType=VARCHAR},</if>
+                <if test="orderId != null">#{orderId,jdbcType=BIGINT},</if>
+                <if test="dishId != null">#{dishId,jdbcType=BIGINT},</if>
+                <if test="setmealId != null">#{setmealId,jdbcType=BIGINT},</if>
+                <if test="dishFlavor != null">#{dishFlavor,jdbcType=VARCHAR},</if>
+                <if test="number != null">#{number,jdbcType=INTEGER},</if>
+                <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="generator.domain.OrderDetail">
+        update order_detail
+        <set>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="image != null">
+                    image = #{image,jdbcType=VARCHAR},
+                </if>
+                <if test="orderId != null">
+                    order_id = #{orderId,jdbcType=BIGINT},
+                </if>
+                <if test="dishId != null">
+                    dish_id = #{dishId,jdbcType=BIGINT},
+                </if>
+                <if test="setmealId != null">
+                    setmeal_id = #{setmealId,jdbcType=BIGINT},
+                </if>
+                <if test="dishFlavor != null">
+                    dish_flavor = #{dishFlavor,jdbcType=VARCHAR},
+                </if>
+                <if test="number != null">
+                    number = #{number,jdbcType=INTEGER},
+                </if>
+                <if test="amount != null">
+                    amount = #{amount,jdbcType=DECIMAL},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="generator.domain.OrderDetail">
+        update order_detail
+        set 
+            name =  #{name,jdbcType=VARCHAR},
+            image =  #{image,jdbcType=VARCHAR},
+            order_id =  #{orderId,jdbcType=BIGINT},
+            dish_id =  #{dishId,jdbcType=BIGINT},
+            setmeal_id =  #{setmealId,jdbcType=BIGINT},
+            dish_flavor =  #{dishFlavor,jdbcType=VARCHAR},
+            number =  #{number,jdbcType=INTEGER},
+            amount =  #{amount,jdbcType=DECIMAL}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

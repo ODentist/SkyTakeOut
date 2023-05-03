@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.ShoppingCartMapper">
+    <sql id="Base_Column_List">
+        id,name,image,
+        user_id,dish_id,setmeal_id,
+        dish_flavor,number,amount,
+        create_time
+    </sql>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sky.entity.ShoppingCart" useGeneratedKeys="true">
+        insert into shopping_cart
+        ( name,image
+        ,user_id,dish_id,setmeal_id
+        ,dish_flavor,number,amount
+        ,create_time)
+        values (#{name,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR}
+               ,#{userId,jdbcType=BIGINT},#{dishId,jdbcType=BIGINT},#{setmealId,jdbcType=BIGINT}
+               ,#{dishFlavor,jdbcType=VARCHAR},#{number,jdbcType=INTEGER},#{amount,jdbcType=DECIMAL}
+               ,#{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateShoppingCart" parameterType="com.sky.entity.ShoppingCart">
+        update shopping_cart
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null">
+                image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="dishId != null">
+                dish_id = #{dishId,jdbcType=BIGINT},
+            </if>
+            <if test="setmealId != null">
+                setmeal_id = #{setmealId,jdbcType=BIGINT},
+            </if>
+            <if test="dishFlavor != null">
+                dish_flavor = #{dishFlavor,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT}
+    </update>
+    <delete id="deleteByUserId">
+        delete from shopping_cart where user_id=#{userId}
+    </delete>
+    <delete id="deleteShoppingCart">
+        delete from shopping_cart
+        <where>
+            <if test="dishId != null">
+                and dish_id = #{dishId}
+            </if>
+            <if test="setmealId != null">
+                and setmeal_id = #{setmealId}
+            </if>
+            <if test="dishFlavor != null">
+                and dish_flavor = #{dishFlavor}
+            </if>
+        </where>
+    </delete>
+
+    <select id="checkShoppingCartList" resultType="com.sky.entity.ShoppingCart">
+        select <include refid="Base_Column_List"/>
+        from shopping_cart
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="dishId != null">
+                and dish_id = #{dishId}
+            </if>
+            <if test="setmealId != null">
+                and setmeal_id = #{setmealId}
+            </if>
+            <if test="dishFlavor != null">
+                and dish_flavor = #{dishFlavor}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.OrdersMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.Orders">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="number" column="number" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="addressBookId" column="address_book_id" jdbcType="BIGINT"/>
+            <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
+            <result property="checkoutTime" column="checkout_time" jdbcType="TIMESTAMP"/>
+            <result property="payMethod" column="pay_method" jdbcType="INTEGER"/>
+            <result property="payStatus" column="pay_status" jdbcType="TINYINT"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
+            <result property="cancelReason" column="cancel_reason" jdbcType="VARCHAR"/>
+            <result property="rejectionReason" column="rejection_reason" jdbcType="VARCHAR"/>
+            <result property="cancelTime" column="cancel_time" jdbcType="TIMESTAMP"/>
+            <result property="estimatedDeliveryTime" column="estimated_delivery_time" jdbcType="TIMESTAMP"/>
+            <result property="deliveryStatus" column="delivery_status" jdbcType="TINYINT"/>
+            <result property="deliveryTime" column="delivery_time" jdbcType="TIMESTAMP"/>
+            <result property="packAmount" column="pack_amount" jdbcType="INTEGER"/>
+            <result property="tablewareNumber" column="tableware_number" jdbcType="INTEGER"/>
+            <result property="tablewareStatus" column="tableware_status" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,number,status,
+        user_id,address_book_id,order_time,
+        checkout_time,pay_method,pay_status,
+        amount,remark,phone,
+        address,user_name,consignee,
+        cancel_reason,rejection_reason,cancel_time,
+        estimated_delivery_time,delivery_status,delivery_time,
+        pack_amount,tableware_number,tableware_status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from orders
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from orders
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generator.domain.Orders" useGeneratedKeys="true">
+        insert into orders
+        ( id,number,status
+        ,user_id,address_book_id,order_time
+        ,checkout_time,pay_method,pay_status
+        ,amount,remark,phone
+        ,address,user_name,consignee
+        ,cancel_reason,rejection_reason,cancel_time
+        ,estimated_delivery_time,delivery_status,delivery_time
+        ,pack_amount,tableware_number,tableware_status
+        )
+        values (#{id,jdbcType=BIGINT},#{number,jdbcType=VARCHAR},#{status,jdbcType=INTEGER}
+        ,#{userId,jdbcType=BIGINT},#{addressBookId,jdbcType=BIGINT},#{orderTime,jdbcType=TIMESTAMP}
+        ,#{checkoutTime,jdbcType=TIMESTAMP},#{payMethod,jdbcType=INTEGER},#{payStatus,jdbcType=TINYINT}
+        ,#{amount,jdbcType=DECIMAL},#{remark,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
+        ,#{address,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{consignee,jdbcType=VARCHAR}
+        ,#{cancelReason,jdbcType=VARCHAR},#{rejectionReason,jdbcType=VARCHAR},#{cancelTime,jdbcType=TIMESTAMP}
+        ,#{estimatedDeliveryTime,jdbcType=TIMESTAMP},#{deliveryStatus,jdbcType=TINYINT},#{deliveryTime,jdbcType=TIMESTAMP}
+        ,#{packAmount,jdbcType=INTEGER},#{tablewareNumber,jdbcType=INTEGER},#{tablewareStatus,jdbcType=TINYINT}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generator.domain.Orders" useGeneratedKeys="true">
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="number != null">number,</if>
+                <if test="status != null">status,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="addressBookId != null">address_book_id,</if>
+                <if test="orderTime != null">order_time,</if>
+                <if test="checkoutTime != null">checkout_time,</if>
+                <if test="payMethod != null">pay_method,</if>
+                <if test="payStatus != null">pay_status,</if>
+                <if test="amount != null">amount,</if>
+                <if test="remark != null">remark,</if>
+                <if test="phone != null">phone,</if>
+                <if test="address != null">address,</if>
+                <if test="userName != null">user_name,</if>
+                <if test="consignee != null">consignee,</if>
+                <if test="cancelReason != null">cancel_reason,</if>
+                <if test="rejectionReason != null">rejection_reason,</if>
+                <if test="cancelTime != null">cancel_time,</if>
+                <if test="estimatedDeliveryTime != null">estimated_delivery_time,</if>
+                <if test="deliveryStatus != null">delivery_status,</if>
+                <if test="deliveryTime != null">delivery_time,</if>
+                <if test="packAmount != null">pack_amount,</if>
+                <if test="tablewareNumber != null">tableware_number,</if>
+                <if test="tablewareStatus != null">tableware_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="number != null">#{number,jdbcType=VARCHAR},</if>
+                <if test="status != null">#{status,jdbcType=INTEGER},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="addressBookId != null">#{addressBookId,jdbcType=BIGINT},</if>
+                <if test="orderTime != null">#{orderTime,jdbcType=TIMESTAMP},</if>
+                <if test="checkoutTime != null">#{checkoutTime,jdbcType=TIMESTAMP},</if>
+                <if test="payMethod != null">#{payMethod,jdbcType=INTEGER},</if>
+                <if test="payStatus != null">#{payStatus,jdbcType=TINYINT},</if>
+                <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+                <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+                <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+                <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+                <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+                <if test="consignee != null">#{consignee,jdbcType=VARCHAR},</if>
+                <if test="cancelReason != null">#{cancelReason,jdbcType=VARCHAR},</if>
+                <if test="rejectionReason != null">#{rejectionReason,jdbcType=VARCHAR},</if>
+                <if test="cancelTime != null">#{cancelTime,jdbcType=TIMESTAMP},</if>
+                <if test="estimatedDeliveryTime != null">#{estimatedDeliveryTime,jdbcType=TIMESTAMP},</if>
+                <if test="deliveryStatus != null">#{deliveryStatus,jdbcType=TINYINT},</if>
+                <if test="deliveryTime != null">#{deliveryTime,jdbcType=TIMESTAMP},</if>
+                <if test="packAmount != null">#{packAmount,jdbcType=INTEGER},</if>
+                <if test="tablewareNumber != null">#{tablewareNumber,jdbcType=INTEGER},</if>
+                <if test="tablewareStatus != null">#{tablewareStatus,jdbcType=TINYINT},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="generator.domain.Orders">
+        update orders
+        <set>
+                <if test="number != null">
+                    number = #{number,jdbcType=VARCHAR},
+                </if>
+                <if test="status != null">
+                    status = #{status,jdbcType=INTEGER},
+                </if>
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=BIGINT},
+                </if>
+                <if test="addressBookId != null">
+                    address_book_id = #{addressBookId,jdbcType=BIGINT},
+                </if>
+                <if test="orderTime != null">
+                    order_time = #{orderTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="checkoutTime != null">
+                    checkout_time = #{checkoutTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="payMethod != null">
+                    pay_method = #{payMethod,jdbcType=INTEGER},
+                </if>
+                <if test="payStatus != null">
+                    pay_status = #{payStatus,jdbcType=TINYINT},
+                </if>
+                <if test="amount != null">
+                    amount = #{amount,jdbcType=DECIMAL},
+                </if>
+                <if test="remark != null">
+                    remark = #{remark,jdbcType=VARCHAR},
+                </if>
+                <if test="phone != null">
+                    phone = #{phone,jdbcType=VARCHAR},
+                </if>
+                <if test="address != null">
+                    address = #{address,jdbcType=VARCHAR},
+                </if>
+                <if test="userName != null">
+                    user_name = #{userName,jdbcType=VARCHAR},
+                </if>
+                <if test="consignee != null">
+                    consignee = #{consignee,jdbcType=VARCHAR},
+                </if>
+                <if test="cancelReason != null">
+                    cancel_reason = #{cancelReason,jdbcType=VARCHAR},
+                </if>
+                <if test="rejectionReason != null">
+                    rejection_reason = #{rejectionReason,jdbcType=VARCHAR},
+                </if>
+                <if test="cancelTime != null">
+                    cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="estimatedDeliveryTime != null">
+                    estimated_delivery_time = #{estimatedDeliveryTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="deliveryStatus != null">
+                    delivery_status = #{deliveryStatus,jdbcType=TINYINT},
+                </if>
+                <if test="deliveryTime != null">
+                    delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="packAmount != null">
+                    pack_amount = #{packAmount,jdbcType=INTEGER},
+                </if>
+                <if test="tablewareNumber != null">
+                    tableware_number = #{tablewareNumber,jdbcType=INTEGER},
+                </if>
+                <if test="tablewareStatus != null">
+                    tableware_status = #{tablewareStatus,jdbcType=TINYINT},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="generator.domain.Orders">
+        update orders
+        set 
+            number =  #{number,jdbcType=VARCHAR},
+            status =  #{status,jdbcType=INTEGER},
+            user_id =  #{userId,jdbcType=BIGINT},
+            address_book_id =  #{addressBookId,jdbcType=BIGINT},
+            order_time =  #{orderTime,jdbcType=TIMESTAMP},
+            checkout_time =  #{checkoutTime,jdbcType=TIMESTAMP},
+            pay_method =  #{payMethod,jdbcType=INTEGER},
+            pay_status =  #{payStatus,jdbcType=TINYINT},
+            amount =  #{amount,jdbcType=DECIMAL},
+            remark =  #{remark,jdbcType=VARCHAR},
+            phone =  #{phone,jdbcType=VARCHAR},
+            address =  #{address,jdbcType=VARCHAR},
+            user_name =  #{userName,jdbcType=VARCHAR},
+            consignee =  #{consignee,jdbcType=VARCHAR},
+            cancel_reason =  #{cancelReason,jdbcType=VARCHAR},
+            rejection_reason =  #{rejectionReason,jdbcType=VARCHAR},
+            cancel_time =  #{cancelTime,jdbcType=TIMESTAMP},
+            estimated_delivery_time =  #{estimatedDeliveryTime,jdbcType=TIMESTAMP},
+            delivery_status =  #{deliveryStatus,jdbcType=TINYINT},
+            delivery_time =  #{deliveryTime,jdbcType=TIMESTAMP},
+            pack_amount =  #{packAmount,jdbcType=INTEGER},
+            tableware_number =  #{tablewareNumber,jdbcType=INTEGER},
+            tableware_status =  #{tablewareStatus,jdbcType=TINYINT}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

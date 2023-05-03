@@ -103,9 +103,9 @@
         select <include refid="Base_Column_List"/>
         from dish where id=#{id}
     </select>
-    <select id="queryByCategoryId" resultType="com.sky.vo.DishVO">
+    <select id="queryByCategoryId" resultType="com.sky.entity.Dish">
         select <include refid="Base_Column_List"/>
-        from dish where category_id=#{id}
+        from dish where category_id=#{categoryId}
     </select>
 
 
