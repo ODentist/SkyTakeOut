@@ -61,9 +61,9 @@ public interface OrderMapper {
 
     Double sumByMap(Map map);
 
-    Integer todayValidOrderCount();
+    Integer todayValidOrderCount(Map map);
 
-    Integer todayOrderCount();
+    Integer todayOrderCount(LocalDateTime begin, LocalDateTime end);
 
     Integer queryTotalOrderCount();
 

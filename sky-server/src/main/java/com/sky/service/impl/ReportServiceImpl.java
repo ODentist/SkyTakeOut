@@ -96,41 +96,30 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public OrderReportVO getOrdersStatistics(LocalDate begin, LocalDate end) {
-//        //日期，以逗号分隔，例如：2022-10-01,2022-10-02,2022-10-03
-//        private String dateList;
-//        //每日订单数，以逗号分隔，例如：260,210,215
-//        private String orderCountList;
-//        //每日有效订单数，以逗号分隔，例如：20,21,10
-//        private String validOrderCountList;
-//        //订单总数
-//        private Integer totalOrderCount;
-//        //有效订单数   Orders.COMPLETED
-//        private Integer validOrderCount;
-//        //订单完成率
-//        private Double orderCompletionRate;
+
 
         ArrayList<LocalDate> localDates = dataInsert(begin, end);
-        ArrayList<Integer> validOrderCountList = new ArrayList<>();
-        ArrayList<Integer> todayOrderCountList = new ArrayList<>();
+        ArrayList<Integer> validOrderCountList = new ArrayList<>();//今日有效订单
+        ArrayList<Integer> todayOrderCountList = new ArrayList<>();//今日总订单
         Double orderCompletionRate;
         for (LocalDate localDate : localDates) {
-            LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
-            LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+            LocalDateTime beginTime = LocalDateTime.of(localDate, LocalTime.MIN);
+            LocalDateTime endTime = LocalDateTime.of(localDate, LocalTime.MAX);
             Map map=new HashMap<>();
             map.put("begin",beginTime);
             map.put("end",endTime);
             map.put("status",Orders.COMPLETED);
-            Integer validOrderCount = orderMapper.todayValidOrderCount();
+            Integer validOrderCount = orderMapper.todayValidOrderCount(map);
             validOrderCount= validOrderCount==null?0:validOrderCount;
             validOrderCountList.add(validOrderCount);
-            Integer todayOrderCount=orderMapper.todayOrderCount();
+            Integer todayOrderCount=orderMapper.todayOrderCount(beginTime,endTime);
             todayOrderCount= todayOrderCount==null?0:todayOrderCount;
             todayOrderCountList.add(todayOrderCount);
         }
-        Integer totalOrderCount=orderMapper.queryTotalOrderCount();
+        Integer totalOrderCount=orderMapper.queryTotalOrderCount();//总订单
         totalOrderCount= totalOrderCount==null?0:totalOrderCount;
 
-        Integer totalValidOrderCount=orderMapper.queryTotalValidOrderCount();
+        Integer totalValidOrderCount=orderMapper.queryTotalValidOrderCount();//总有效订单
         totalValidOrderCount= totalValidOrderCount==null?0:totalValidOrderCount;
 
         if (totalOrderCount==0) {
@@ -142,9 +131,21 @@ public class ReportServiceImpl implements ReportService {
                 .orderCountList(StringUtils.join(todayOrderCountList,","))
                 .validOrderCount(totalValidOrderCount)//有效订单数
                 .dateList(StringUtils.join(localDates,","))
-                .validOrderCountList(StringUtils.join(validOrderCountList))
+                .validOrderCountList(StringUtils.join(validOrderCountList,","))
                 .orderCompletionRate(orderCompletionRate).build();
     }
+    //        //日期，以逗号分隔，例如：2022-10-01,2022-10-02,2022-10-03
+//        private String dateList;
+//        //每日订单数，以逗号分隔，例如：260,210,215
+//        private String orderCountList;
+//        //每日有效订单数，以逗号分隔，例如：20,21,10
+//        private String validOrderCountList;
+//        //订单总数
+//        private Integer totalOrderCount;
+//        //有效订单数   Orders.COMPLETED
+//        private Integer validOrderCount;
+//        //订单完成率
+//        private Double orderCompletionRate;
 
     @Override
     public SalesTop10ReportVO getTop10(LocalDate begin, LocalDate end) {
